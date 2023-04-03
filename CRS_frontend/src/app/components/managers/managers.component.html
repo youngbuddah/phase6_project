@@ -1,0 +1,156 @@
+<div class="row text-center text-black mb-5">
+    <div class="col-lg-7 mx-auto">
+        <h3>Manager</h3>
+    </div>
+</div>
+<div class="container" style="width: 25%;">
+    <table>
+        <thead>
+            <tr>
+                <th>
+                    <h4 style="text-align: center;">Register</h4>
+                </th>
+                <th>
+                    <h4 style="text-align: center;">Login</h4>
+                </th>
+            </tr>
+        </thead>
+        <br>
+        <tbody>
+            <tr>
+                <td>
+                    <div class="container">
+                        <form (ngSubmit)="registerManager()">
+                            <div class="form-group">
+                                <input type="text" class="form-control" name="managerEmail"
+                                    [(ngModel)]="manager.managerEmail" placeholder="Enter email">
+                            </div>
+
+                            <div class="form-group">
+                                <input type="password" class="form-control" name="managerPassword"
+                                    [(ngModel)]="manager.managerPassword" placeholder="Enter password">
+                            </div>
+
+                            <div class="form-group">
+                                <input type="text" class="form-control" name="managerName"
+                                    [(ngModel)]="manager.managerName" placeholder="Enter name">
+                            </div>
+
+
+
+                            <div class="form-group">
+                                <input type="text" class="form-control" name="managerPincode"
+                                    [(ngModel)]="manager.managerPincode" placeholder="Enter pincode">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </form>
+                    </div>
+                </td>
+                <td>
+                    <div class="container">
+                        <form [formGroup]="loginForm" (ngSubmit)="validateManager()">
+                            <div class="form-group">
+                                <input type="text" class="form-control" name="managerEmail"
+                                    formControlName="managerEmail" placeholder="Enter email">
+                            </div>
+
+                            <div class="form-group">
+                                <input type="password" class="form-control" name="managerPassword"
+                                    formControlName="managerPassword" placeholder="Enter password">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<br>
+<div class="container" style="width: 25%;">
+    <button *ngIf="managerloginStatus" (click)="getAllComplaintsByPincode()" class="btn btn-danger">View
+        All Complaints</button>
+
+    <button *ngIf="managerloginStatus" (click)="getAllFeedbacks()" class="btn btn-danger">View
+        All Feebacks</button>
+
+</div>
+<!-- -------------------------View Complaints------------------------- -->
+<br>
+
+
+<div *ngIf="viewComplaints" class="container">
+
+    <table>
+        <thead>
+
+        </thead>
+        <br>
+        <tbody ng-repeat="complaint in complaints">
+            <!-- <form (ngSubmit)="engineersDuty()"> -->
+            <tr *ngFor="let complaint of complaints">
+                <div class="container">
+                    <form (ngSubmit)="engineersDuty(complaint)">
+
+                        <td><label for="ticketId">Ticket Id :</label><input type="text" id="ticketId" name="ticketId"
+                                value="{{complaint.ticketId}}" disabled> </td>
+
+                        <td><label for="customerEmail">Customer Email :</label><input type="text" name="customerEmail"
+                                value="{{complaint.customerEmail}}" id="customerEmail" disabled></td>
+
+                        <td><label for="complaint">Complaint :</label><input type="text" name="complaint"
+                                value='{{complaint.complaint}}' id="complaint" disabled></td>
+
+                        <td><label for="pincode">Pincode :</label><input type="text" name="pincode"
+                                value="{{complaint.pincode}}" id="pincode" disabled></td>
+
+                        <td><label for="status">Status :</label><input type="text" name="status"
+                                value="{{complaint.status}}" id="status" disabled></td>
+
+                        <td><button *ngIf="assignEngineersButton" (click)="assignEngineers()"
+                                class="btn btn-danger">Assign
+                                Engineers
+                            </button>
+
+                            <select *ngIf="assignEngineersDropdown" (change)="engineerSelected($event)">
+                                <option *ngFor="let mail of engineerEmails" value="{{mail}}">{{mail}}
+                                </option>
+
+                            </select>
+                        </td>
+                        <td><button type="submit" class="btn btn-primary">Submit</button></td>
+                    </form>
+                </div>
+            </tr>
+            <!-- </form> -->
+        </tbody>
+    </table>
+</div>
+
+<!-- -------------------view Feedbacks------------------------ -->
+<div class="container" style="width: 25%; padding: 1rem;">
+    <div *ngIf="viewFeedbacks">
+        <table>
+            <thead>
+                <tr>
+                    <th style="padding-right: 5px;">Feedback Id</th>
+                    <th style="padding-right: 5px;">Ticket Id</th>
+                    <th style="padding-right: 5px;">Customer Email</th>
+                    <th style="padding-right: 5px;">Feedback</th>
+                </tr>
+            </thead>
+            <br>
+            <tbody>
+                <tr *ngFor="let feedback of feedbacks">
+                    <td style="padding-right: 5px;" scope="row">{{feedback.feedbackId}}</td>
+                    <td style="padding-right: 5px;">{{feedback.ticketId}}</td>
+                    <td style="padding-right: 5px;">{{feedback.customerEmail}}</td>
+                    <td style="padding-right: 5px;">{{feedback.feedback}}</td>
+
+
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
